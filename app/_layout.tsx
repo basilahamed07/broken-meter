@@ -4,7 +4,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ASK_ACTION_PREFIX, setupNotifications } from '../src/notify/alerts';
 import { categorizeFromNotification } from '../src/sms/handler';
@@ -13,9 +13,12 @@ import { PendingPrompt, colors } from '../src/ui';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
+// the hook does not exist on web; Platform.OS is constant so hook order is stable
+const useLastResponse = Platform.OS === 'web' ? () => null : Notifications.useLastNotificationResponse;
+
 function Gate() {
   const { ready, refresh } = useApp();
-  const lastResponse = Notifications.useLastNotificationResponse();
+  const lastResponse = useLastResponse();
   useEffect(() => {
     const id = lastResponse?.actionIdentifier;
     const txId = (lastResponse?.notification.request.content.data as { txId?: number } | undefined)?.txId;
