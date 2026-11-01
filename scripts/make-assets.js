@@ -40,7 +40,7 @@ const CLEAR = [0, 0, 0, 0];
 function dial(u, v, scale, colors) {
   const x = (u - 0.5) / scale, y = (v - 0.55) / scale;
   const r = Math.hypot(x, y), ang = Math.atan2(-y, x); // 0 = right, PI = left
-  if (r > 0.30 && r < 0.40 && y <= 0.02) {
+  if (r > 0.30 && r < 0.40 && y <= 0) {
     const t = 1 - Math.min(1, Math.max(0, ang / Math.PI)); // 0 left .. 1 right
     return t < 0.4 ? colors.green : t < 0.7 ? colors.amber : colors.red;
   }
