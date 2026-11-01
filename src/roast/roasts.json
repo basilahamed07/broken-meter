@@ -1,0 +1,1157 @@
+{
+ "category": {
+  "chill": [
+   {
+    "id": "ca-ch-0",
+    "en": "{category} is looking healthy. Don't ruin it now.",
+    "ta": "{category} semma safe da. Ippadiye maintain pannu."
+   },
+   {
+    "id": "ca-ch-1",
+    "en": "Only ₹{amount} on {category} so far. Respect.",
+    "ta": "{category} la ₹{amount} dhaan. Nalla pogudhu."
+   },
+   {
+    "id": "ca-ch-2",
+    "en": "{category} budget is relaxed. So are you. Keep it up.",
+    "ta": "{category} budget chill ah irukku. Neeyum chill."
+   },
+   {
+    "id": "ca-ch-3",
+    "en": "Still plenty left in {category}. Future you says thanks.",
+    "ta": "{category} la innum nalla iruku. Future you thanks solluvan."
+   },
+   {
+    "id": "ca-ch-4",
+    "en": "{category} is behaving. Unlike your last month.",
+    "ta": "{category} ippo oru problem illa. Last month maari illa."
+   },
+   {
+    "id": "ca-ch-5",
+    "en": "Green zone on {category}. Enjoy it while it lasts.",
+    "ta": "{category} green zone la iruku. Anubavi."
+   },
+   {
+    "id": "ca-ch-6",
+    "en": "Spent ₹{amount} on {category}. Calm down, wallet is fine.",
+    "ta": "{category} ₹{amount} dhaan. Wallet fine ah iruku."
+   },
+   {
+    "id": "ca-ch-7",
+    "en": "{category} is under control. Who are you and what did you do with the old you?",
+    "ta": "{category} control la iruku. Nee dhaan ah idhu?"
+   },
+   {
+    "id": "ca-ch-8",
+    "en": "Not bad. {category} is barely touched.",
+    "ta": "Paravala. {category} adhigam touch aagala."
+   },
+   {
+    "id": "ca-ch-9",
+    "en": "{category} budget: relaxed. Your mom would be proud.",
+    "ta": "{category} budget relax. Amma kooda happy ah irupanga."
+   },
+   {
+    "id": "ca-ch-10",
+    "en": "Low spend on {category}. Treat yourself... slightly.",
+    "ta": "{category} kammi selavu. Konjam treat pannikalam."
+   },
+   {
+    "id": "ca-ch-11",
+    "en": "You're doing great on {category}. Don't get cocky.",
+    "ta": "{category} la semma. Aana over confidence venam."
+   },
+   {
+    "id": "ca-ch-12",
+    "en": "{category} is chill. Keep the streak alive.",
+    "ta": "{category} chill. Streak ah continue pannu."
+   },
+   {
+    "id": "ca-ch-13",
+    "en": "Smart spending on {category} this cycle.",
+    "ta": "{category} la intha cycle smart ah selavu pannirukke."
+   },
+   {
+    "id": "ca-ch-14",
+    "en": "{category} budget has room to breathe.",
+    "ta": "{category} budget ku nalla space iruku."
+   },
+   {
+    "id": "ca-ch-15",
+    "en": "Wallet is smiling at {category}.",
+    "ta": "{category} paathu wallet sirikudhu."
+   }
+  ],
+  "warning": [
+   {
+    "id": "ca-wa-0",
+    "en": "{category} is past halfway already. Slow down a bit.",
+    "ta": "{category} paadhi dhaandiduchu. Konjam slow pannu."
+   },
+   {
+    "id": "ca-wa-1",
+    "en": "Half the {category} budget is gone. Hmm.",
+    "ta": "{category} budget la paadhi poyiduchu. Hmm."
+   },
+   {
+    "id": "ca-wa-2",
+    "en": "₹{amount} on {category}. The month is long, you know.",
+    "ta": "{category} ₹{amount} aachu. Maasam innum neelam iruku."
+   },
+   {
+    "id": "ca-wa-3",
+    "en": "{category} is getting warm. Not hot yet, but getting there.",
+    "ta": "{category} konjam warm aagudhu. Careful."
+   },
+   {
+    "id": "ca-wa-4",
+    "en": "Think twice before the next {category} spend.",
+    "ta": "Adutha {category} selavu munnadi rendu thadava yosi."
+   },
+   {
+    "id": "ca-wa-5",
+    "en": "You and {category} are getting very close.",
+    "ta": "Neeyum {category} um romba close aagitinga."
+   },
+   {
+    "id": "ca-wa-6",
+    "en": "The {category} budget just raised an eyebrow.",
+    "ta": "{category} budget eyebrow ah thookudhu."
+   },
+   {
+    "id": "ca-wa-7",
+    "en": "Over 50% on {category}. Calculator says: hmm.",
+    "ta": "{category} 50% mela poyiduchu. Calculator hmm solludhu."
+   },
+   {
+    "id": "ca-wa-8",
+    "en": "{category} is eating into the month. Watch it.",
+    "ta": "{category} maasatha saapidudhu. Paathu."
+   },
+   {
+    "id": "ca-wa-9",
+    "en": "Amber alert on {category}. Maybe skip one.",
+    "ta": "{category} amber alert. Oru thadava skip pannu."
+   },
+   {
+    "id": "ca-wa-10",
+    "en": "Wallet whispers: 'maybe not today' on {category}.",
+    "ta": "Wallet solludhu: 'inniku venam' {category} ku."
+   },
+   {
+    "id": "ca-wa-11",
+    "en": "{category} budget is sweating a little.",
+    "ta": "{category} budget konjam sweat pannudhu."
+   },
+   {
+    "id": "ca-wa-12",
+    "en": "Spending on {category} is picking up speed.",
+    "ta": "{category} selavu speed aagudhu."
+   },
+   {
+    "id": "ca-wa-13",
+    "en": "Easy now. {category} is not a bottomless pit.",
+    "ta": "Easy da. {category} bottomless pit illa."
+   },
+   {
+    "id": "ca-wa-14",
+    "en": "Still okay on {category}, but the clock is ticking.",
+    "ta": "{category} innum okay, aana clock odudhu."
+   },
+   {
+    "id": "ca-wa-15",
+    "en": "Halfway there on {category}. Plan the rest.",
+    "ta": "{category} paadhi aachu. Meedhi plan pannu."
+   }
+  ],
+  "danger": [
+   {
+    "id": "ca-da-0",
+    "en": "{category} is almost out. Only ₹{left} left.",
+    "ta": "{category} kitta theerndhuduchu. ₹{left} dhaan meedhi."
+   },
+   {
+    "id": "ca-da-1",
+    "en": "Just ₹{left} left in {category}. Choose wisely.",
+    "ta": "{category} la ₹{left} dhaan irukku. Paathu selavu pannu."
+   },
+   {
+    "id": "ca-da-2",
+    "en": "{category} is at the edge. One more order and boom.",
+    "ta": "{category} edge la irukku. Innoru order na adhu mudinjidum."
+   },
+   {
+    "id": "ca-da-3",
+    "en": "Red zone nearby on {category}. Wallet is nervous.",
+    "ta": "{category} red zone kitta. Wallet nervous."
+   },
+   {
+    "id": "ca-da-4",
+    "en": "{category} budget is gasping for air.",
+    "ta": "{category} budget moochu vaanguthu."
+   },
+   {
+    "id": "ca-da-5",
+    "en": "₹{left} left on {category}. That's like two chai and a samosa.",
+    "ta": "{category} ₹{left} dhaan. Rendu chai oru samosa."
+   },
+   {
+    "id": "ca-da-6",
+    "en": "Careful. {category} is 75% gone.",
+    "ta": "Careful da. {category} 75% poyiduchu."
+   },
+   {
+    "id": "ca-da-7",
+    "en": "Almost broke on {category}. Almost.",
+    "ta": "{category} kitta broke. Kitta."
+   },
+   {
+    "id": "ca-da-8",
+    "en": "You are one impulse away from busting {category}.",
+    "ta": "Oru impulse la {category} budget udaiyum."
+   },
+   {
+    "id": "ca-da-9",
+    "en": "{category} budget: ICU edition.",
+    "ta": "{category} budget ippo ICU la."
+   },
+   {
+    "id": "ca-da-10",
+    "en": "{category} is on its last legs. Please stop.",
+    "ta": "{category} last stage. Nillunga please."
+   },
+   {
+    "id": "ca-da-11",
+    "en": "Danger on {category}. Say no to the next one.",
+    "ta": "{category} danger. Adutha selavuku no sollu."
+   },
+   {
+    "id": "ca-da-12",
+    "en": "Even your wallet is saying 'bro...' about {category}.",
+    "ta": "Wallet kooda 'machan...' nu solludhu {category} pathi."
+   },
+   {
+    "id": "ca-da-13",
+    "en": "₹{left} between you and a budget disaster on {category}.",
+    "ta": "{category} la ₹{left} dhaan disaster ku munnadi."
+   },
+   {
+    "id": "ca-da-14",
+    "en": "{category} budget is on life support.",
+    "ta": "{category} budget life support la irukku."
+   },
+   {
+    "id": "ca-da-15",
+    "en": "Think. Breathe. Skip the {category} spend.",
+    "ta": "Yosi. Moochu vidu. {category} selavu skip pannu."
+   }
+  ],
+  "broke": [
+   {
+    "id": "ca-br-0",
+    "en": "₹{amount} over on {category}. Maggi era starts now.",
+    "ta": "{category} budget poyiduchu da. Inimel Maggi dhaan."
+   },
+   {
+    "id": "ca-br-1",
+    "en": "{category} is officially broke. ₹{amount} over.",
+    "ta": "{category} officially broke. ₹{amount} adhigam."
+   },
+   {
+    "id": "ca-br-2",
+    "en": "You blew the {category} budget by ₹{amount}. Iconic.",
+    "ta": "{category} budget ₹{amount} dhaandiduchu. Legendary."
+   },
+   {
+    "id": "ca-br-3",
+    "en": "{category} budget has left the chat.",
+    "ta": "{category} budget chat la irundhu poyiduchu."
+   },
+   {
+    "id": "ca-br-4",
+    "en": "Over by ₹{amount} on {category}. Wallet filed a complaint.",
+    "ta": "{category} ₹{amount} over. Wallet complaint koduthuduchu."
+   },
+   {
+    "id": "ca-br-5",
+    "en": "RIP {category} budget. Gone but not forgotten.",
+    "ta": "RIP {category} budget. Poyiduchu."
+   },
+   {
+    "id": "ca-br-6",
+    "en": "₹{amount} extra on {category}. Bold strategy.",
+    "ta": "{category} la ₹{amount} extra. Bold plan."
+   },
+   {
+    "id": "ca-br-7",
+    "en": "{category} said 'enough' about 3 orders ago.",
+    "ta": "{category} 3 order munnadiye 'podhum' nu sonnadhu."
+   },
+   {
+    "id": "ca-br-8",
+    "en": "You and {category} need to talk. Budget is blown.",
+    "ta": "Neeyum {category} um pesanum. Budget blast."
+   },
+   {
+    "id": "ca-br-9",
+    "en": "{count}th {category} spend and the limit is gone.",
+    "ta": "{count}th {category} selavu. Limit poyiduchu."
+   },
+   {
+    "id": "ca-br-10",
+    "en": "Broke on {category}. The Maggi packets are calling.",
+    "ta": "{category} la broke. Maggi packet koopidudhu."
+   },
+   {
+    "id": "ca-br-11",
+    "en": "{category} is in the negative. Welcome to the broke club.",
+    "ta": "{category} negative la. Broke club ku welcome."
+   },
+   {
+    "id": "ca-br-12",
+    "en": "₹{amount} over. Rice and rasam from here on.",
+    "ta": "₹{amount} over. Inimel saadham rasam dhaan."
+   },
+   {
+    "id": "ca-br-13",
+    "en": "The {category} budget is dead. Pour one out.",
+    "ta": "{category} budget mudinjidhu. Anjali."
+   },
+   {
+    "id": "ca-br-14",
+    "en": "Budget crossed. Time for dal rice and silence.",
+    "ta": "Budget dhaandiduchu. Ini paruppu saadham dhaan."
+   },
+   {
+    "id": "ca-br-15",
+    "en": "{category} is cooked. So is your month.",
+    "ta": "{category} mudinjidhu. Maasamum dhaan."
+   }
+  ]
+ },
+ "beforePay": {
+  "chill": [
+   {
+    "id": "be-ch-0",
+    "en": "Fine to pay. ₹{left} still left for {days} days.",
+    "ta": "Pay pannalam. ₹{left} irukku {days} naalaiku."
+   },
+   {
+    "id": "be-ch-1",
+    "en": "This is safe. You still have ₹{left} for {days} days.",
+    "ta": "Idhu safe. ₹{left} irukku {days} naalaiku."
+   },
+   {
+    "id": "be-ch-2",
+    "en": "Go ahead. Your budget can take this.",
+    "ta": "Pannu da. Budget thaanguum."
+   },
+   {
+    "id": "be-ch-3",
+    "en": "Green light. ₹{left} left after this.",
+    "ta": "Green signal. Idhuku apram ₹{left} irukku."
+   },
+   {
+    "id": "be-ch-4",
+    "en": "No drama here. Pay and move on.",
+    "ta": "Drama illa. Pay pannitu po."
+   },
+   {
+    "id": "be-ch-5",
+    "en": "Totally fine. ₹{amount} won't hurt.",
+    "ta": "Fine dhaan. ₹{amount} onnum aagaadhu."
+   },
+   {
+    "id": "be-ch-6",
+    "en": "This one's okay. You have room.",
+    "ta": "Idhu okay. Space irukku."
+   },
+   {
+    "id": "be-ch-7",
+    "en": "Easy payment. Budget stays happy.",
+    "ta": "Easy payment. Budget happy."
+   },
+   {
+    "id": "be-ch-8",
+    "en": "Safe spend. Keep being smart.",
+    "ta": "Safe selavu. Smart ah irunga."
+   },
+   {
+    "id": "be-ch-9",
+    "en": "Wallet approves this one.",
+    "ta": "Wallet idhuku OK sollidhu."
+   },
+   {
+    "id": "be-ch-10",
+    "en": "₹{amount} is nothing for your budget right now.",
+    "ta": "₹{amount} budget ku ippo onnum illa."
+   },
+   {
+    "id": "be-ch-11",
+    "en": "You're in the clear. Pay away.",
+    "ta": "Clear ah irukku. Pay pannu."
+   },
+   {
+    "id": "be-ch-12",
+    "en": "Smooth. ₹{left} will remain for {days} days.",
+    "ta": "Smooth. ₹{left} meedhi {days} naalaiku."
+   },
+   {
+    "id": "be-ch-13",
+    "en": "Budget says yes.",
+    "ta": "Budget sollidhu yes."
+   },
+   {
+    "id": "be-ch-14",
+    "en": "Healthy spending. Carry on.",
+    "ta": "Healthy selavu. Thodarunga."
+   },
+   {
+    "id": "be-ch-15",
+    "en": "Nothing to worry about on this one.",
+    "ta": "Idhula kavalai illa."
+   }
+  ],
+  "warning": [
+   {
+    "id": "be-wa-0",
+    "en": "After this, ₹{left} for {days} days. Still okay, but think.",
+    "ta": "Idhuku apram ₹{left} {days} naalaiku. Okay, aana yosi."
+   },
+   {
+    "id": "be-wa-1",
+    "en": "Do you really need this ₹{amount}?",
+    "ta": "Unmaiyave ₹{amount} venuma?"
+   },
+   {
+    "id": "be-wa-2",
+    "en": "Pause. ₹{left} left for {days} days after this.",
+    "ta": "Konjam nillu. Idhuku apram ₹{left} {days} naalaiku."
+   },
+   {
+    "id": "be-wa-3",
+    "en": "This eats a chunk of your {days}-day runway.",
+    "ta": "Idhu {days} naal budget la oru paguthi."
+   },
+   {
+    "id": "be-wa-4",
+    "en": "One more thought before you pay.",
+    "ta": "Pay pannum munnadi oru thadava yosi."
+   },
+   {
+    "id": "be-wa-5",
+    "en": "Budget is half gone. This one counts.",
+    "ta": "Budget paadhi poyiduchu. Idhu count aagum."
+   },
+   {
+    "id": "be-wa-6",
+    "en": "Is this a need or a mood?",
+    "ta": "Idhu need ah mood ah?"
+   },
+   {
+    "id": "be-wa-7",
+    "en": "₹{amount} now means tighter days later.",
+    "ta": "₹{amount} ippo na naalaiku tight."
+   },
+   {
+    "id": "be-wa-8",
+    "en": "Wallet is raising an eyebrow.",
+    "ta": "Wallet eyebrow thookudhu."
+   },
+   {
+    "id": "be-wa-9",
+    "en": "You can pay, but the next few days will be careful ones.",
+    "ta": "Pay pannalam, aana adutha naalgal careful."
+   },
+   {
+    "id": "be-wa-10",
+    "en": "Still alright. Just don't make a habit of it.",
+    "ta": "Paravala. Aana habit aakadhey."
+   },
+   {
+    "id": "be-wa-11",
+    "en": "Think about {days} days from now. ₹{left} only.",
+    "ta": "{days} naal apram yosi. ₹{left} dhaan."
+   },
+   {
+    "id": "be-wa-12",
+    "en": "Warning: your budget is watching you.",
+    "ta": "Warning: budget unnai paakudhu."
+   },
+   {
+    "id": "be-wa-13",
+    "en": "Skipping this could save ₹{amount}.",
+    "ta": "Idha skip panna ₹{amount} meedhi."
+   },
+   {
+    "id": "be-wa-14",
+    "en": "Maybe wait till tomorrow?",
+    "ta": "Naalaiku pannalama?"
+   },
+   {
+    "id": "be-wa-15",
+    "en": "This is where good habits start. Think once.",
+    "ta": "Nalla habit inga dhaan aarambam. Oru thadava yosi."
+   }
+  ],
+  "danger": [
+   {
+    "id": "be-da-0",
+    "en": "After this, only ₹{left} left for {days} days. What's the plan now?",
+    "ta": "Idhuku apram ₹{left} dhaan {days} naalaiku. Enna plan?"
+   },
+   {
+    "id": "be-da-1",
+    "en": "Only ₹{left} would remain. {days} days to go. Brave.",
+    "ta": "₹{left} dhaan meedhi. {days} naal irukku. Dhairyam."
+   },
+   {
+    "id": "be-da-2",
+    "en": "This leaves you with ₹{left}. For {days} days. Seriously?",
+    "ta": "₹{left} dhaan meedhi. {days} naalaiku. Seriously?"
+   },
+   {
+    "id": "be-da-3",
+    "en": "Paying ₹{amount} leaves ₹{left}. Are you sure?",
+    "ta": "₹{amount} pay panna ₹{left} dhaan. Urudhiya?"
+   },
+   {
+    "id": "be-da-4",
+    "en": "Your future self is begging you to cancel.",
+    "ta": "Future you cancel pannunu kenjudhu."
+   },
+   {
+    "id": "be-da-5",
+    "en": "Math time: ₹{left} divided by {days} days. Ouch.",
+    "ta": "Kanakku: ₹{left} / {days} naal. Aiyo."
+   },
+   {
+    "id": "be-da-6",
+    "en": "This is how Maggi nights begin.",
+    "ta": "Maggi night ippadi dhaan aarambam."
+   },
+   {
+    "id": "be-da-7",
+    "en": "Danger zone. The cancel button is right there.",
+    "ta": "Danger zone. Cancel button inga dhaan irukku."
+   },
+   {
+    "id": "be-da-8",
+    "en": "₹{left} left after this. Count your chai.",
+    "ta": "Idhuku apram ₹{left}. Chai count pannu."
+   },
+   {
+    "id": "be-da-9",
+    "en": "You can pay. You also can regret.",
+    "ta": "Pay pannalam. Varuthappadalam."
+   },
+   {
+    "id": "be-da-10",
+    "en": "Very risky. {days} days with ₹{left}.",
+    "ta": "Romba risk. {days} naal ₹{left} la."
+   },
+   {
+    "id": "be-da-11",
+    "en": "Cancel and save ₹{amount}. Just saying.",
+    "ta": "Cancel panni ₹{amount} save pannu. Sollitten."
+   },
+   {
+    "id": "be-da-12",
+    "en": "One more payment like this and you're toast.",
+    "ta": "Innoru payment ippadi na mudinjidhum."
+   },
+   {
+    "id": "be-da-13",
+    "en": "Your budget just gulped.",
+    "ta": "Budget thondaiya adaichidhu."
+   },
+   {
+    "id": "be-da-14",
+    "en": "Are we okay with ₹{left} for {days} days?",
+    "ta": "₹{left} la {days} naal ok ah?"
+   },
+   {
+    "id": "be-da-15",
+    "en": "Pause. Breathe. Is it worth ₹{amount}?",
+    "ta": "Moochu vidu. ₹{amount} worth ah?"
+   }
+  ],
+  "broke": [
+   {
+    "id": "be-br-0",
+    "en": "This pushes you into the red. ₹{amount} you don't have.",
+    "ta": "Idhu unnai red la thallum. ₹{amount} illa."
+   },
+   {
+    "id": "be-br-1",
+    "en": "You're already broke. This makes it official.",
+    "ta": "Already broke. Idhu official aakkum."
+   },
+   {
+    "id": "be-br-2",
+    "en": "Over budget by ₹{amount}. Maggi era begins.",
+    "ta": "₹{amount} over budget. Maggi era aarambam."
+   },
+   {
+    "id": "be-br-3",
+    "en": "This payment is on borrowed money. Sure?",
+    "ta": "Idhu kadan panam. Urudhiya?"
+   },
+   {
+    "id": "be-br-4",
+    "en": "Budget is dead. Cancel and save ₹{amount}?",
+    "ta": "Budget mudinjidhu. ₹{amount} save pannalama?"
+   },
+   {
+    "id": "be-br-5",
+    "en": "Even your wallet is crying. Don't do this.",
+    "ta": "Wallet azhudhu. Idha pannaadhey."
+   },
+   {
+    "id": "be-br-6",
+    "en": "Past the limit. Paying makes it worse.",
+    "ta": "Limit dhaandiduchu. Pay panna mosam."
+   },
+   {
+    "id": "be-br-7",
+    "en": "The only winning move is not to pay.",
+    "ta": "Pay pannaama irundhale win."
+   },
+   {
+    "id": "be-br-8",
+    "en": "₹{left} left and you want to spend ₹{amount}? Bold.",
+    "ta": "₹{left} dhaan irukku, ₹{amount} selavu? Bold."
+   },
+   {
+    "id": "be-br-9",
+    "en": "Bro. Cancel. Please.",
+    "ta": "Machan. Cancel pannu. Please."
+   },
+   {
+    "id": "be-br-10",
+    "en": "This is how debt starts. Stop and think.",
+    "ta": "Kadan ippadi dhaan aarambam. Yosi."
+   },
+   {
+    "id": "be-br-11",
+    "en": "Broke mode ON. This payment is a no.",
+    "ta": "Broke mode ON. Idhu venam."
+   },
+   {
+    "id": "be-br-12",
+    "en": "You're in the negative. Go home.",
+    "ta": "Negative la irukka. Veetuku po."
+   },
+   {
+    "id": "be-br-13",
+    "en": "Seriously? Rice and rasam is cheaper.",
+    "ta": "Seriously ah? Saadham rasam sasthaa."
+   },
+   {
+    "id": "be-br-14",
+    "en": "Your budget filed for bankruptcy.",
+    "ta": "Budget bankruptcy file pannidhu."
+   },
+   {
+    "id": "be-br-15",
+    "en": "Cancel now and be a legend.",
+    "ta": "Ippove cancel pannu, legend aagu."
+   }
+  ]
+ },
+ "overall": {
+  "chill": [
+   {
+    "id": "ov-ch-0",
+    "en": "You're doing great. ₹{left} left this month.",
+    "ta": "Semma pogudhu. ₹{left} meedhi."
+   },
+   {
+    "id": "ov-ch-1",
+    "en": "Budget is healthy. Keep it that way.",
+    "ta": "Budget healthy. Appadiye vachuko."
+   },
+   {
+    "id": "ov-ch-2",
+    "en": "Plenty of room left this cycle.",
+    "ta": "Indha cycle la nalla space irukku."
+   },
+   {
+    "id": "ov-ch-3",
+    "en": "On track. Your future self is smiling.",
+    "ta": "On track. Future you sirikkuran."
+   },
+   {
+    "id": "ov-ch-4",
+    "en": "Chill mode. ₹{left} still in the bank.",
+    "ta": "Chill mode. ₹{left} irukku."
+   },
+   {
+    "id": "ov-ch-5",
+    "en": "Money is lasting. Impressive.",
+    "ta": "Panam nilaikkudhu. Super."
+   },
+   {
+    "id": "ov-ch-6",
+    "en": "Smooth month so far.",
+    "ta": "Inthu maasam smooth ah pogudhu."
+   },
+   {
+    "id": "ov-ch-7",
+    "en": "Nothing to panic about right now.",
+    "ta": "Ippo panic pannum alavuku onnum illa."
+   },
+   {
+    "id": "ov-ch-8",
+    "en": "Good job. Don't celebrate with a shopping spree.",
+    "ta": "Good job. Shopping panni celebrate pannaadhey."
+   },
+   {
+    "id": "ov-ch-9",
+    "en": "Wallet is relaxed.",
+    "ta": "Wallet relax ah iruku."
+   },
+   {
+    "id": "ov-ch-10",
+    "en": "You're ahead of your usual self.",
+    "ta": "Un pazhaya selavu vida nalla irukku."
+   },
+   {
+    "id": "ov-ch-11",
+    "en": "Savings energy detected.",
+    "ta": "Savings energy irukku."
+   },
+   {
+    "id": "ov-ch-12",
+    "en": "Full month looks possible!",
+    "ta": "Full month pogum pola!"
+   },
+   {
+    "id": "ov-ch-13",
+    "en": "Calm, cool, and in budget.",
+    "ta": "Calm, cool, budget la."
+   },
+   {
+    "id": "ov-ch-14",
+    "en": "Keep this up and you'll have money on day 30.",
+    "ta": "Ippadiye pona 30th naal kooda panam irukkum."
+   },
+   {
+    "id": "ov-ch-15",
+    "en": "Spending is under control.",
+    "ta": "Selavu control la irukku."
+   }
+  ],
+  "warning": [
+   {
+    "id": "ov-wa-0",
+    "en": "Over half the month's money is gone. Slow down.",
+    "ta": "Maasa panam paadhi poyiduchu. Slow pannu."
+   },
+   {
+    "id": "ov-wa-1",
+    "en": "₹{left} left. Time to be careful.",
+    "ta": "₹{left} meedhi. Careful ah iru."
+   },
+   {
+    "id": "ov-wa-2",
+    "en": "You're spending a bit fast this month.",
+    "ta": "Indha maasam konjam speed ah selavu."
+   },
+   {
+    "id": "ov-wa-3",
+    "en": "Money is getting thinner. Watch it.",
+    "ta": "Panam kammi aagudhu. Paathu."
+   },
+   {
+    "id": "ov-wa-4",
+    "en": "Warning: ₹{left} for {days} days.",
+    "ta": "Warning: ₹{left} {days} naalaiku."
+   },
+   {
+    "id": "ov-wa-5",
+    "en": "Not bad, not great. Be careful.",
+    "ta": "Paravala, aana careful."
+   },
+   {
+    "id": "ov-wa-6",
+    "en": "Halfway gone already? Hmm.",
+    "ta": "Paadhi poyiduchu ah? Hmm."
+   },
+   {
+    "id": "ov-wa-7",
+    "en": "The month needs a plan.",
+    "ta": "Maasathuku oru plan venum."
+   },
+   {
+    "id": "ov-wa-8",
+    "en": "Cut one small expense today.",
+    "ta": "Innaiku oru chinna selavu cut pannu."
+   },
+   {
+    "id": "ov-wa-9",
+    "en": "Your wallet is watching you.",
+    "ta": "Wallet unnai paakudhu."
+   },
+   {
+    "id": "ov-wa-10",
+    "en": "At this rate, the month will be tight.",
+    "ta": "Ippadiye pona maasam tight."
+   },
+   {
+    "id": "ov-wa-11",
+    "en": "A little discipline now saves drama later.",
+    "ta": "Ippove discipline, apram drama illa."
+   },
+   {
+    "id": "ov-wa-12",
+    "en": "Orange alert: budget is dipping.",
+    "ta": "Orange alert: budget kuraiyudhu."
+   },
+   {
+    "id": "ov-wa-13",
+    "en": "Maybe skip the next treat.",
+    "ta": "Adutha treat skip pannu."
+   },
+   {
+    "id": "ov-wa-14",
+    "en": "Keep an eye on daily spending.",
+    "ta": "Dhinam selavu paaru."
+   },
+   {
+    "id": "ov-wa-15",
+    "en": "Still fixable. Slow down now.",
+    "ta": "Innum sari pannalam. Ippove slow pannu."
+   }
+  ],
+  "danger": [
+   {
+    "id": "ov-da-0",
+    "en": "Only ₹{left} left for {days} days. What's the plan?",
+    "ta": "₹{left} dhaan {days} naalaiku. Enna plan?"
+   },
+   {
+    "id": "ov-da-1",
+    "en": "Money is almost gone. {days} days to survive.",
+    "ta": "Panam kitta mudinjidhu. {days} naal irukku."
+   },
+   {
+    "id": "ov-da-2",
+    "en": "You're running on fumes. ₹{left} left.",
+    "ta": "Fumes la odura. ₹{left} meedhi."
+   },
+   {
+    "id": "ov-da-3",
+    "en": "This month is going to be tough.",
+    "ta": "Indha maasam kashtam."
+   },
+   {
+    "id": "ov-da-4",
+    "en": "Budget in danger. Skip everything extra.",
+    "ta": "Budget danger. Extra ellam skip pannu."
+   },
+   {
+    "id": "ov-da-5",
+    "en": "₹{left} for {days} days. Rice and rasam time.",
+    "ta": "₹{left} {days} naalaiku. Saadham rasam time."
+   },
+   {
+    "id": "ov-da-6",
+    "en": "Time to pause all non-essential spends.",
+    "ta": "Thevai illa selavu ellam nirutthu."
+   },
+   {
+    "id": "ov-da-7",
+    "en": "You are close to broke. Very close.",
+    "ta": "Broke ku romba kitta."
+   },
+   {
+    "id": "ov-da-8",
+    "en": "Every rupee counts now.",
+    "ta": "Ippo ovvoru rupee um mukkiyam."
+   },
+   {
+    "id": "ov-da-9",
+    "en": "Wallet is on its last breath.",
+    "ta": "Wallet last moochu la."
+   },
+   {
+    "id": "ov-da-10",
+    "en": "Cooking at home starts today.",
+    "ta": "Innaiku mudhal veetla samaikkanum."
+   },
+   {
+    "id": "ov-da-11",
+    "en": "Tight days ahead. ₹{left} only.",
+    "ta": "Tight naal varudhu. ₹{left} dhaan."
+   },
+   {
+    "id": "ov-da-12",
+    "en": "The end of the month feels far away.",
+    "ta": "Maasa mudivu romba dhooram."
+   },
+   {
+    "id": "ov-da-13",
+    "en": "Danger zone. Please stop spending.",
+    "ta": "Danger zone. Selavu nirutthu."
+   },
+   {
+    "id": "ov-da-14",
+    "en": "Count your coins. Seriously.",
+    "ta": "Kaasa ennu. Seriously."
+   },
+   {
+    "id": "ov-da-15",
+    "en": "Your salary is on vacation.",
+    "ta": "Un salary vacation poyiduchu."
+   }
+  ],
+  "broke": [
+   {
+    "id": "ov-br-0",
+    "en": "Officially broke. ₹{amount} over for this month.",
+    "ta": "Officially broke. ₹{amount} over."
+   },
+   {
+    "id": "ov-br-1",
+    "en": "Budget crossed. Maggi era starts now.",
+    "ta": "Budget dhaandiduchu. Inimel Maggi."
+   },
+   {
+    "id": "ov-br-2",
+    "en": "You've spent more than you earn. Classic.",
+    "ta": "Sambalatha vida adhigam selavu. Classic."
+   },
+   {
+    "id": "ov-br-3",
+    "en": "Zero left and {days} days to go. Good luck.",
+    "ta": "Meedhi onnum illa, {days} naal irukku. All the best."
+   },
+   {
+    "id": "ov-br-4",
+    "en": "The month isn't over but your money is.",
+    "ta": "Maasam mudiyala, panam mudinjidhu."
+   },
+   {
+    "id": "ov-br-5",
+    "en": "Wallet has left the building.",
+    "ta": "Wallet building vittu poyiduchu."
+   },
+   {
+    "id": "ov-br-6",
+    "en": "Broke club: now accepting you.",
+    "ta": "Broke club ippo unnai accept pannudhu."
+   },
+   {
+    "id": "ov-br-7",
+    "en": "Next salary feels very far.",
+    "ta": "Adutha salary romba dhooram."
+   },
+   {
+    "id": "ov-br-8",
+    "en": "Time for home food and prayers.",
+    "ta": "Veetu saapadu, prarthanai."
+   },
+   {
+    "id": "ov-br-9",
+    "en": "Stop spending. Seriously stop.",
+    "ta": "Selavu nirutthu. Seriously."
+   },
+   {
+    "id": "ov-br-10",
+    "en": "Negative balance energy. Chill.",
+    "ta": "Negative balance. Chill pannu."
+   },
+   {
+    "id": "ov-br-11",
+    "en": "Even chai needs a plan now.",
+    "ta": "Chai kooda plan pannanum."
+   },
+   {
+    "id": "ov-br-12",
+    "en": "Budget busted by ₹{amount}.",
+    "ta": "Budget ₹{amount} udaichidhu."
+   },
+   {
+    "id": "ov-br-13",
+    "en": "You've entered the Maggi zone.",
+    "ta": "Maggi zone ku vandhuttinga."
+   },
+   {
+    "id": "ov-br-14",
+    "en": "₹{amount} over. Salary day, where are you?",
+    "ta": "₹{amount} over. Salary day, enga irukka?"
+   },
+   {
+    "id": "ov-br-15",
+    "en": "It's okay. Everyone's been broke once. Many times.",
+    "ta": "Paravala. Ellarum oru thadava broke. Pala thadava."
+   }
+  ]
+ },
+ "win": [
+  {
+   "id": "win-0",
+   "en": "₹{amount} saved! Semma move.",
+   "ta": "₹{amount} save pannita! Semma da 🔥"
+  },
+  {
+   "id": "win-1",
+   "en": "Cancelled ₹{amount}. Wallet says thanks.",
+   "ta": "₹{amount} cancel. Wallet nandri solludhu."
+  },
+  {
+   "id": "win-2",
+   "en": "Look at you saving ₹{amount}!",
+   "ta": "₹{amount} save pannita paaru!"
+  },
+  {
+   "id": "win-3",
+   "en": "That's ₹{amount} still in your pocket. Legend.",
+   "ta": "₹{amount} pocket la irukku. Legend."
+  },
+  {
+   "id": "win-4",
+   "en": "Nice save. Future you is clapping.",
+   "ta": "Nalla save. Future you kai thatturan."
+  },
+  {
+   "id": "win-5",
+   "en": "₹{amount} saved. Don't spend it on the next thing.",
+   "ta": "₹{amount} save. Adutha selavuku vendaam."
+  },
+  {
+   "id": "win-6",
+   "en": "Self-control: unlocked.",
+   "ta": "Self-control unlock aachu."
+  },
+  {
+   "id": "win-7",
+   "en": "Saved ₹{amount}. Treat yourself... with nothing.",
+   "ta": "₹{amount} save. Treat... onnum illa."
+  },
+  {
+   "id": "win-8",
+   "en": "That's how wealth begins. ₹{amount} saved.",
+   "ta": "Idhu dhaan selvathin aarambam. ₹{amount} save."
+  },
+  {
+   "id": "win-9",
+   "en": "Big brain move. ₹{amount} stays with you.",
+   "ta": "Big brain. ₹{amount} unkitta."
+  },
+  {
+   "id": "win-10",
+   "en": "₹{amount} saved. Your budget is blushing.",
+   "ta": "₹{amount} save. Budget vetkapadudhu."
+  },
+  {
+   "id": "win-11",
+   "en": "Winning. Quietly. ₹{amount} saved.",
+   "ta": "Win. Sattham illama. ₹{amount} save."
+  },
+  {
+   "id": "win-12",
+   "en": "You said no to ₹{amount}. Proud of you.",
+   "ta": "₹{amount} ku no sonna. Perumai."
+  },
+  {
+   "id": "win-13",
+   "en": "₹{amount} saved. Maggi stays away today.",
+   "ta": "₹{amount} save. Maggi inniku varaadhu."
+  },
+  {
+   "id": "win-14",
+   "en": "Discipline level up! ₹{amount} saved.",
+   "ta": "Discipline level up! ₹{amount} save."
+  },
+  {
+   "id": "win-15",
+   "en": "Streak alive. ₹{amount} richer than yesterday's you.",
+   "ta": "Streak irukku. ₹{amount} adhigam."
+  }
+ ],
+ "context": {
+  "count": [
+   {
+    "id": "cx-cou-0",
+    "en": "{count}th {category} order today. Are you okay?",
+    "ta": "Innaiku {count}th {category} order. Nalla irukkiya?"
+   },
+   {
+    "id": "cx-cou-1",
+    "en": "That's {count} {category} spends today. Respect, but stop.",
+    "ta": "Innaiku {count} {category} selavu. Podhum da."
+   },
+   {
+    "id": "cx-cou-2",
+    "en": "{count} {category} orders in one day. Chef mode off.",
+    "ta": "Oru naalil {count} {category} order. Samaikaadhey."
+   },
+   {
+    "id": "cx-cou-3",
+    "en": "Order number {count} on {category} today. The delivery guy knows you now.",
+    "ta": "{count}th {category} order. Delivery anna ku unnai theriyum."
+   },
+   {
+    "id": "cx-cou-4",
+    "en": "{count}th time on {category} today. Your wallet is tired.",
+    "ta": "{count}th {category}. Wallet tired."
+   }
+  ],
+  "weekend": [
+   {
+    "id": "cx-wee-0",
+    "en": "Weekend spending detected. Fun is allowed. Bankruptcy isn't.",
+    "ta": "Weekend selavu. Fun ok, bankruptcy illa."
+   },
+   {
+    "id": "cx-wee-1",
+    "en": "Weekend mode: wallet in danger.",
+    "ta": "Weekend mode: wallet danger la."
+   },
+   {
+    "id": "cx-wee-2",
+    "en": "Saturday/Sunday you is expensive.",
+    "ta": "Weekend nee romba selavu."
+   },
+   {
+    "id": "cx-wee-3",
+    "en": "Weekend vibes are costing real money.",
+    "ta": "Weekend vibes ku nijama panam."
+   },
+   {
+    "id": "cx-wee-4",
+    "en": "Enjoy the weekend, but keep an eye on the budget.",
+    "ta": "Weekend enjoy pannu, aana budget paaru."
+   }
+  ],
+  "lateNight": [
+   {
+    "id": "cx-lat-0",
+    "en": "Late night spending. Nothing good happens after midnight.",
+    "ta": "Nadu raathri selavu. Nalladhu onnum nadakkaadhu."
+   },
+   {
+    "id": "cx-lat-1",
+    "en": "It's late. Sleep first, spend later.",
+    "ta": "Late aachu. Thoongu, apram selavu pannu."
+   },
+   {
+    "id": "cx-lat-2",
+    "en": "Midnight order? Bold. Hungry or bored?",
+    "ta": "Nadu raathri order? Pasi ya bore ah?"
+   },
+   {
+    "id": "cx-lat-3",
+    "en": "2 AM spending hits different. And harder.",
+    "ta": "Nadu raathri selavu romba adhigam."
+   },
+   {
+    "id": "cx-lat-4",
+    "en": "Your budget is asleep. Don't wake it up.",
+    "ta": "Budget thoongudhu. Ezhuppaadhey."
+   }
+  ]
+ }
+}

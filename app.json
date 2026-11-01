@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "Broke Meter",
+    "slug": "broke-meter",
+    "scheme": "brokemeter",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#111111",
+    "android": {
+      "package": "app.brokemeter",
+      "adaptiveIcon": {
+        "backgroundColor": "#111111",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "permissions": ["POST_NOTIFICATIONS", "VIBRATE"]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-sqlite",
+      ["expo-notifications", { "color": "#E24B4A" }],
+      ["expo-splash-screen", { "backgroundColor": "#111111", "image": "./assets/splash-icon.png", "imageWidth": 160 }]
+    ],
+    "experiments": { "typedRoutes": false }
+  }
+}
