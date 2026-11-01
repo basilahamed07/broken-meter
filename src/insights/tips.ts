@@ -33,3 +33,27 @@ export function categoryTip(i: TipInput): string {
   if (i.txCount >= 3 && avg > 0) return `Your average ${i.categoryName} spend is ${formatRupees(avg)}. Small ones add up`;
   return 'Add expenses as you go so the forecast stays honest';
 }
+
+export interface OverallTipInput {
+  foodCategoryName?: string;
+  foodOrderCount: number;
+  avgFoodOrder: number; // paise
+  biggestCategoryName?: string;
+  topPayee?: { name: string; count: number } | null;
+  remaining: number;
+  daysLeft: number;
+}
+
+/** One rule-based tip for the Insights screen. */
+export function insightsTip(i: OverallTipInput): string {
+  if (i.foodOrderCount > 8) {
+    return `Cooking 3 dinners at home saves about ${formatRupees(i.avgFoodOrder * 3)}`;
+  }
+  if (i.remaining <= 0) return 'You are out of money for this cycle. Pause every non-essential spend until salary day';
+  if (i.topPayee && i.topPayee.count >= 5) return `${i.topPayee.name} appeared ${i.topPayee.count} times. That habit adds up`;
+  if (i.daysLeft > 0) {
+    const perDay = Math.floor(i.remaining / i.daysLeft);
+    return `Spending at most ${formatRupees(perDay)} a day keeps you inside the budget till salary day`;
+  }
+  return 'Add expenses as you go so the numbers stay honest';
+}

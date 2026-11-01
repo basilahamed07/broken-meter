@@ -1,0 +1,22 @@
+{
+  "groceries": {
+    "categoryHints": ["grocer", "supermarket", "vegetable", "kirana", "provision"],
+    "keywords": ["dmart", "d mart", "bigbasket", "big basket", "zepto", "blinkit", "instamart", "jiomart", "reliance fresh", "more retail", "spencer", "nature basket"]
+  },
+  "food": {
+    "categoryHints": ["food", "dining", "eat", "restaurant", "snack"],
+    "keywords": ["swiggy", "zomato", "dominos", "domino", "kfc", "mcdonald", "pizza", "burger", "biryani", "starbucks", "cafe", "restaurant", "hotel", "bakery"]
+  },
+  "travel": {
+    "categoryHints": ["travel", "transport", "commute", "cab", "fuel", "petrol"],
+    "keywords": ["uber", "ola", "rapido", "irctc", "metro", "redbus", "makemytrip", "indigo", "petrol", "fuel", "fastag", "railway", "bus"]
+  },
+  "shopping": {
+    "categoryHints": ["shop", "cloth", "fashion", "apparel"],
+    "keywords": ["amazon", "flipkart", "myntra", "meesho", "ajio", "nykaa", "decathlon", "lifestyle", "westside", "croma"]
+  },
+  "bills": {
+    "categoryHints": ["bill", "utilit", "recharge", "rent", "emi"],
+    "keywords": ["electricity", "eb", "tneb", "bescom", "jio", "airtel", "vi", "vodafone", "bsnl", "recharge", "broadband", "act fibernet", "gas", "water", "dth", "tatasky", "insurance"]
+  }
+}

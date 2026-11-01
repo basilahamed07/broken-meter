@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { getLevel, usageRatio } from '../../src/budget/levels';
 import { categoryTransactions } from '../../src/db/queries';
@@ -8,7 +8,7 @@ import { categoryTip } from '../../src/insights/tips';
 import { formatRupees } from '../../src/lib/money';
 import { LEVEL_TITLES, pickRoast } from '../../src/roast/engine';
 import { useApp } from '../../src/state/AppContext';
-import { Card, LevelCard, ProgressBar, Screen, Text, TipCard, colors, levelColors } from '../../src/ui';
+import { Card, LevelCard, ProgressBar, Screen, SecondaryButton, Text, TipCard, colors, levelColors, shareView } from '../../src/ui';
 
 export default function CategoryDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -16,6 +16,7 @@ export default function CategoryDetail() {
   const { categories, spentBy, cycle, settings, cycleRange, recent } = useApp();
   const cat = categories.find((c) => c.id === Number(id));
   const [txs, setTxs] = useState<Transaction[]>([]);
+  const card = useRef<any>(null);
 
   useEffect(() => {
     if (!cat) return;
@@ -55,7 +56,9 @@ export default function CategoryDetail() {
         <Text variant="title">{cat.emoji} {cat.name}</Text>
       </View>
 
-      <LevelCard level={level} title={LEVEL_TITLES[level]} line={roast} />
+      <View ref={card} collapsable={false} style={{ backgroundColor: colors.page }}>
+        <LevelCard level={level} title={LEVEL_TITLES[level]} line={roast} />
+      </View>
 
       <Card inner style={{ gap: 8 }}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -66,6 +69,7 @@ export default function CategoryDetail() {
       </Card>
 
       <TipCard text={tip} />
+      <SecondaryButton label={level === 'chill' ? 'Share my progress' : 'Share my shame'} onPress={() => shareView(card)} />
 
       <Text variant="heading" style={{ marginTop: 4 }}>Transactions</Text>
       <Card style={{ paddingVertical: 4 }}>

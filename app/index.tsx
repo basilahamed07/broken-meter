@@ -1,6 +1,6 @@
 import { Redirect, useRouter } from 'expo-router';
 import React from 'react';
-import { Alert, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { forecastLine } from '../src/budget/forecast';
 import { formatRupees } from '../src/lib/money';
 import { useApp } from '../src/state/AppContext';
@@ -11,16 +11,20 @@ export default function Home() {
   const { settings, categories, spentBy, forecast, overallLevel, recent } = useApp();
   if (!settings.onboardingDone) return <Redirect href="/onboarding" />;
 
-  const soon = (what: string) => Alert.alert(what, 'This arrives in the next update (Phase 2). Use "Add expense" for now.');
   const catName = (id: number | null) => categories.find((c) => c.id === id);
 
   return (
     <Screen>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 4 }}>
         <Text variant="title">Broke meter</Text>
-        <Pressable onPress={() => router.push('/settings')} hitSlop={12} accessibilityLabel="Settings">
-          <Text style={{ fontSize: 22, color: colors.textSecondary }}>⚙</Text>
-        </Pressable>
+        <View style={{ flexDirection: 'row', gap: 18 }}>
+          <Pressable onPress={() => router.push('/insights')} hitSlop={12} accessibilityLabel="Insights">
+            <Text style={{ fontSize: 20, color: colors.textSecondary }}>📊</Text>
+          </Pressable>
+          <Pressable onPress={() => router.push('/settings')} hitSlop={12} accessibilityLabel="Settings">
+            <Text style={{ fontSize: 22, color: colors.textSecondary }}>⚙</Text>
+          </Pressable>
+        </View>
       </View>
 
       <SummaryCard
@@ -38,9 +42,9 @@ export default function Home() {
         {categories.length === 0 ? <Text variant="caption" style={{ paddingVertical: 12 }}>No categories yet. Add some in Settings.</Text> : null}
       </Card>
 
-      <PrimaryButton label="Scan and pay" onPress={() => soon('Scan and pay')} />
+      <PrimaryButton label="Scan and pay" onPress={() => router.push('/pay-qr')} />
       <View style={{ flexDirection: 'row', gap: 10 }}>
-        <SecondaryButton label="Pay someone" style={{ flex: 1 }} onPress={() => soon('Pay someone')} />
+        <SecondaryButton label="Pay someone" style={{ flex: 1 }} onPress={() => router.push('/pay-someone')} />
         <SecondaryButton label="Add expense" style={{ flex: 1 }} onPress={() => router.push('/add-expense')} />
       </View>
 

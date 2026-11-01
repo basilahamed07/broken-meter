@@ -15,3 +15,6 @@ export * from './TextField';
 export * from './BottomSheet';
 export * from './Screen';
 export * from './EmojiPicker';
+export * from './CategoryPicker';
+export * from './share';
+export * from './PendingPrompt';

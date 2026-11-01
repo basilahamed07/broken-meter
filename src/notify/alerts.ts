@@ -52,3 +52,23 @@ export async function hapticForLevel(level: Level): Promise<void> {
     // haptics are best-effort
   }
 }
+
+export const ASK_ACTION_PREFIX = 'cat:';
+
+/** "₹500 to Arun, which category?" with the top 3 categories as action buttons. */
+export async function notifyAskCategory(txId: number, text: string, options: { id: number; label: string }[]): Promise<void> {
+  try {
+    if (!(await notificationsGranted())) return;
+    const categoryId = `ask-${txId}`;
+    await Notifications.setNotificationCategoryAsync(
+      categoryId,
+      options.slice(0, 3).map((o) => ({ identifier: `${ASK_ACTION_PREFIX}${o.id}`, buttonTitle: o.label, options: { opensAppToForeground: true } })),
+    );
+    await Notifications.scheduleNotificationAsync({
+      content: { title: 'Which category?', body: text, categoryIdentifier: categoryId, data: { txId }, ...(Platform.OS === 'android' ? { channelId: CHANNEL } : {}) } as Notifications.NotificationContentInput,
+      trigger: null,
+    });
+  } catch {
+    // best effort
+  }
+}

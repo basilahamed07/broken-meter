@@ -1,13 +1,14 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Cycle, getCycle } from '../budget/cycle';
 import { Forecast, computeForecast } from '../budget/forecast';
-import { Level, getLevel, isEscalation } from '../budget/levels';
+import { Level, getLevel } from '../budget/levels';
 import * as q from '../db/queries';
 import type { Category, Settings, Transaction } from '../db/types';
 import { addDays } from '../lib/dates';
-import { formatRupees } from '../lib/money';
-import { hapticForLevel, notifyLevel } from '../notify/alerts';
-import { LEVEL_TITLES, contextRoast, pickRoast } from '../roast/engine';
+import { AppState } from 'react-native';
+import { learnLabel } from '../categorize/learn';
+import { startSmsListener } from '../sms/listener';
+import { SaveResult, checkLevels } from './alerts';
 
 interface Derived {
   cycle: Cycle;
@@ -16,8 +17,6 @@ interface Derived {
   spentBy: Map<number | null, number>;
   overallLevel: Level;
 }
-
-export interface SaveResult { newLevel: Level | null; categoryId: number | null; roast: string | null }
 
 interface Ctx extends Derived {
   ready: boolean;
@@ -29,6 +28,11 @@ interface Ctx extends Derived {
   completeOnboarding: (income: number, salaryDay: number, cats: { name: string; emoji: string; monthlyLimit: number }[]) => Promise<void>;
   saveExpense: (t: { amount: number; categoryId: number | null; payee: string; note: string }) => Promise<SaveResult>;
   cycleRange: () => { from: number; to: number };
+  /** Record an in-app payment that has been handed to GPay. Confirmed later by SMS or by asking the user. */
+  addPending: (t: { amount: number; categoryId: number | null; payee: string; note: string; source: 'qr' | 'p2p' }) => Promise<number>;
+  pendingPrompt: Transaction | null;
+  resolvePending: (id: number, wentThrough: boolean) => Promise<void>;
+  snoozePending: () => void;
 }
 
 const DEFAULT_SETTINGS: Settings = { income: 0, salaryDay: 1, roastLanguage: 'mix', onboardingDone: false };
@@ -93,71 +97,66 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     await refresh();
   }, [refresh]);
 
-  /** Saves an expense, then fires a roast notification once per level crossing per cycle. */
+  /** Saves a manual expense, learns from the label, then fires level alerts. */
   const saveExpense: Ctx['saveExpense'] = useCallback(async (t) => {
     await q.addTransaction({ ...t, source: 'manual', status: 'confirmed' });
-    const s = settingsRef.current;
-    const today = new Date();
-    const cycle = getCycle(today, s.salaryDay);
-    const { from, to } = rangeFor(cycle);
-    const spent = await q.spentByCategory(from, to);
-    const cats = await q.listCategories();
-    const cat = cats.find((c) => c.id === t.categoryId) ?? null;
-    let newLevel: Level | null = null;
-    let roastText: string | null = null;
-
-    if (cat) {
-      const catSpent = spent.get(cat.id) ?? 0;
-      const level = getLevel(catSpent, cat.monthlyLimit);
-      const scope = `cat:${cat.id}`;
-      const prev = (await q.getAlertLevel(scope, from)) as Level | null;
-      if (level !== 'chill' && (!prev || isEscalation(prev, level))) {
-        await q.setAlertLevel(scope, from, level);
-        const history = await q.recentRoastIds();
-        const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
-        const cnt = await q.countToday(cat.id, todayStart);
-        const ctx = contextRoast(today, cat.name, cnt, s.roastLanguage, history);
-        const base = pickRoast('category', level, s.roastLanguage, {
-          category: cat.name,
-          amount: formatRupees(Math.max(0, catSpent - cat.monthlyLimit)),
-          left: formatRupees(Math.max(0, cat.monthlyLimit - catSpent)),
-        }, history);
-        const pick = level === 'broke' || !ctx ? base : ctx;
-        await q.addRoastHistory(pick.id);
-        roastText = pick.text;
-        newLevel = level;
-        await hapticForLevel(level);
-        await notifyLevel(`${cat.emoji} ${cat.name}: ${LEVEL_TITLES[level]}`, pick.text);
-      }
-    }
-
-    // overall budget
-    let total = 0;
-    spent.forEach((v) => (total += v));
-    const overall = getLevel(total, s.income);
-    const prevAll = (await q.getAlertLevel('overall', from)) as Level | null;
-    if (overall !== 'chill' && (!prevAll || isEscalation(prevAll, overall)) && s.income > 0) {
-      await q.setAlertLevel('overall', from, overall);
-      if (!newLevel || overall === 'broke' || overall === 'danger') {
-        const history = await q.recentRoastIds();
-        const f = computeForecast(s.income, total, cycle, today);
-        const line = pickRoast('overall', overall, s.roastLanguage, {
-          amount: formatRupees(Math.max(0, total - s.income)),
-          left: formatRupees(Math.max(0, f.remaining)),
-          days: cycle.daysLeft,
-        }, history);
-        await q.addRoastHistory(line.id);
-        await notifyLevel(`Overall budget: ${LEVEL_TITLES[overall]}`, line.text);
-        if (!newLevel) await hapticForLevel(overall);
-      }
-    }
-
+    await learnLabel(t.payee, t.note, t.categoryId);
+    const r = await checkLevels(t.categoryId);
     await refresh();
-    return { newLevel, categoryId: t.categoryId, roast: roastText };
+    return r;
   }, [refresh]);
+
+  useEffect(() => {
+    if (!ready || !settings.onboardingDone) return;
+    return startSmsListener(() => { refresh().catch(() => {}); });
+  }, [ready, settings.onboardingDone, refresh]);
+
+  const [pendingPrompt, setPendingPrompt] = useState<Transaction | null>(null);
+  const snoozed = useRef(new Set<number>());
+
+  const checkPending = useCallback(async () => {
+    if (!settingsRef.current.onboardingDone) return;
+    const list = await q.pendingTransactions(Date.now() - 24 * 3600_000);
+    const next = list.find((t) => !snoozed.current.has(t.id) && Date.now() - t.createdAt > 8_000);
+    setPendingPrompt(next ?? null);
+  }, []);
+
+  useEffect(() => {
+    const sub = AppState.addEventListener('change', (st) => {
+      if (st === 'active') refresh().then(checkPending).catch(() => {});
+    });
+    return () => sub.remove();
+  }, [refresh, checkPending]);
+  useEffect(() => { if (ready) checkPending().catch(() => {}); }, [ready, checkPending]);
+
+  const addPending: Ctx['addPending'] = useCallback(async (t) => {
+    const id = await q.addTransaction({ ...t, status: 'pending' });
+    await refresh();
+    return id;
+  }, [refresh]);
+
+  const resolvePending: Ctx['resolvePending'] = useCallback(async (id, wentThrough) => {
+    const t = await q.getTransaction(id);
+    if (!t) return;
+    if (wentThrough) {
+      await q.setTransactionStatus(id, 'confirmed');
+      await learnLabel(t.payee, t.note, t.categoryId);
+      await checkLevels(t.categoryId);
+    } else {
+      await q.setTransactionStatus(id, 'cancelled');
+    }
+    setPendingPrompt(null);
+    await refresh();
+    await checkPending();
+  }, [refresh, checkPending]);
+
+  const snoozePending = useCallback(() => {
+    if (pendingPrompt) snoozed.current.add(pendingPrompt.id);
+    setPendingPrompt(null);
+  }, [pendingPrompt]);
 
   const cycleRange = useCallback(() => rangeFor(derived.cycle), [derived.cycle]);
 
-  const value: Ctx = { ...derived, ready, settings, categories, recent, refresh, updateSettings, completeOnboarding, saveExpense, cycleRange };
+  const value: Ctx = { ...derived, ready, settings, categories, recent, refresh, updateSettings, completeOnboarding, saveExpense, cycleRange, addPending, pendingPrompt, resolvePending, snoozePending };
   return <AppCtx.Provider value={value}>{children}</AppCtx.Provider>;
 }

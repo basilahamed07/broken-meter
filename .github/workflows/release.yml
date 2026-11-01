@@ -1,0 +1,45 @@
+name: Release APK
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_BUILD: '1' # drops the INTERNET permission: the shipped APK cannot use the network
+      EXPO_NO_TELEMETRY: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 17 }
+      - uses: android-actions/setup-android@v3
+      - run: npm ci --legacy-peer-deps
+      - run: npm run typecheck
+      - run: npm test
+      - name: Generate native project
+        run: npx expo prebuild --platform android --no-install --clean
+      - name: Shrink the APK (R8, resource shrinking, arm only)
+        run: |
+          cat >> android/gradle.properties <<'PROPS'
+          android.enableMinifyInReleaseBuilds=true
+          android.enableShrinkResourcesInReleaseBuilds=true
+          reactNativeArchitectures=armeabi-v7a,arm64-v8a
+          PROPS
+      - name: Build release APK
+        working-directory: android
+        run: ./gradlew assembleRelease --no-daemon
+      - name: Check APK size (< 40 MB) and name it
+        run: |
+          APK=$(ls android/app/build/outputs/apk/release/*.apk | head -1)
+          SIZE=$(stat -c%s "$APK")
+          echo "APK size: $((SIZE/1024/1024)) MB"
+          [ "$SIZE" -lt 41943040 ] || { echo "APK is larger than 40 MB"; exit 1; }
+          cp "$APK" "BrokeMeter-${GITHUB_REF_NAME}.apk"
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: BrokeMeter-*.apk
+          generate_release_notes: true

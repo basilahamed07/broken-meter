@@ -1,4 +1,5 @@
 import * as SQLite from 'expo-sqlite';
+import { NbModel, newModel, tokenize } from '../categorize/naiveBayes';
 import type { Lang } from '../roast/engine';
 import { migrate } from './migrations';
 import type { Category, NewTransaction, Settings, Transaction } from './types';
@@ -189,5 +190,128 @@ export async function deleteAllData(): Promise<void> {
     }
     await db.runAsync("DELETE FROM sqlite_sequence WHERE name IN ('categories','transactions','savings_events')");
     await db.runAsync("UPDATE settings SET income = 0, salary_day = 1, roast_language = 'mix', onboarding_done = 0 WHERE id = 1");
+  });
+}
+
+/* ---------- payee memory + classifier ---------- */
+export async function getPayeeMemory(norm: string): Promise<number | null> {
+  const db = await getDb();
+  const r = await db.getFirstAsync<{ category_id: number }>('SELECT category_id FROM payee_memory WHERE payee_normalized = ?', [norm]);
+  return r?.category_id ?? null;
+}
+export async function rememberPayee(norm: string, categoryId: number): Promise<void> {
+  if (!norm) return;
+  const db = await getDb();
+  const cur = await db.getFirstAsync<{ category_id: number; count: number }>('SELECT * FROM payee_memory WHERE payee_normalized = ?', [norm]);
+  if (cur && cur.category_id === categoryId) await db.runAsync('UPDATE payee_memory SET count = count + 1 WHERE payee_normalized = ?', [norm]);
+  else await db.runAsync('INSERT OR REPLACE INTO payee_memory (payee_normalized, category_id, count) VALUES (?,?,1)', [norm, categoryId]);
+}
+export async function loadClassifier(): Promise<NbModel> {
+  const db = await getDb();
+  const m = newModel();
+  const rows = await db.getAllAsync<{ token: string; category_id: number; count: number }>('SELECT * FROM classifier_tokens');
+  for (const r of rows) {
+    let tc = m.tokenCounts.get(r.category_id);
+    if (!tc) m.tokenCounts.set(r.category_id, (tc = new Map()));
+    tc.set(r.token, r.count);
+    m.tokenTotals.set(r.category_id, (m.tokenTotals.get(r.category_id) ?? 0) + r.count);
+    m.vocab.add(r.token);
+  }
+  const metas = await db.getAllAsync<{ key: string; value: string }>("SELECT * FROM classifier_meta WHERE key LIKE 'docs:%'");
+  for (const x of metas) m.docCounts.set(Number(x.key.slice(5)), Number(x.value));
+  return m;
+}
+export async function trainClassifierDb(text: string, categoryId: number): Promise<void> {
+  const toks = tokenize(text);
+  if (!toks.length) return;
+  const db = await getDb();
+  await db.withTransactionAsync(async () => {
+    for (const t of toks) {
+      await db.runAsync(
+        'INSERT INTO classifier_tokens (token, category_id, count) VALUES (?,?,1) ON CONFLICT(token, category_id) DO UPDATE SET count = count + 1',
+        [t, categoryId],
+      );
+    }
+    await db.runAsync(
+      "INSERT INTO classifier_meta (key, value) VALUES (?, '1') ON CONFLICT(key) DO UPDATE SET value = CAST(value AS INTEGER) + 1",
+      [`docs:${categoryId}`],
+    );
+  });
+}
+
+/* ---------- pending payments, SMS ---------- */
+export async function pendingTransactions(sinceMs: number): Promise<Transaction[]> {
+  const db = await getDb();
+  const rows = await db.getAllAsync<TxRow>("SELECT * FROM transactions WHERE status = 'pending' AND created_at >= ? ORDER BY created_at DESC", [sinceMs]);
+  return rows.map(toTx);
+}
+export async function setTransactionStatus(id: number, status: Transaction['status']): Promise<void> {
+  const db = await getDb();
+  await db.runAsync('UPDATE transactions SET status = ? WHERE id = ?', [status, id]);
+}
+export async function confirmPendingWithSms(id: number, smsHash: string): Promise<void> {
+  const db = await getDb();
+  await db.runAsync("UPDATE transactions SET status = 'confirmed', sms_hash = ? WHERE id = ?", [smsHash, id]);
+}
+export async function smsHashExists(hash: string): Promise<boolean> {
+  const db = await getDb();
+  const r = await db.getFirstAsync<{ c: number }>('SELECT COUNT(*) AS c FROM transactions WHERE sms_hash = ?', [hash]);
+  return (r?.c ?? 0) > 0;
+}
+
+/* ---------- savings ---------- */
+export async function addSavingsEvent(amount: number, payee: string): Promise<void> {
+  const db = await getDb();
+  await db.runAsync('INSERT INTO savings_events (amount, payee, created_at) VALUES (?,?,?)', [amount, payee, Date.now()]);
+}
+export async function savingsTotal(from: number, to: number): Promise<number> {
+  const db = await getDb();
+  const r = await db.getFirstAsync<{ s: number | null }>('SELECT SUM(amount) AS s FROM savings_events WHERE created_at >= ? AND created_at < ?', [from, to]);
+  return r?.s ?? 0;
+}
+
+/* ---------- stats for streak + insights ---------- */
+export async function transactionsBetween(from: number, to: number): Promise<Transaction[]> {
+  const db = await getDb();
+  const rows = await db.getAllAsync<TxRow>("SELECT * FROM transactions WHERE status != 'cancelled' AND created_at >= ? AND created_at < ? ORDER BY created_at", [from, to]);
+  return rows.map(toTx);
+}
+export async function allTransactions(): Promise<Transaction[]> {
+  const db = await getDb();
+  const rows = await db.getAllAsync<TxRow>('SELECT * FROM transactions ORDER BY created_at');
+  return rows.map(toTx);
+}
+
+/* ---------- backup ---------- */
+export async function dumpAll(): Promise<import('../backup/backup').BackupData> {
+  const db = await getDb();
+  const [settings, categories, transactions] = await Promise.all([getSettings(), listCategories(), allTransactions()]);
+  const mem = await db.getAllAsync<{ payee_normalized: string; category_id: number; count: number }>('SELECT * FROM payee_memory');
+  const sav = await db.getAllAsync<{ id: number; amount: number; payee: string; created_at: number }>('SELECT * FROM savings_events');
+  return {
+    app: 'broke-meter', version: 1, exportedAt: Date.now(), settings, categories, transactions,
+    payeeMemory: mem.map((m) => ({ payee: m.payee_normalized, categoryId: m.category_id, count: m.count })),
+    savingsEvents: sav.map((s) => ({ id: s.id, amount: s.amount, payee: s.payee, createdAt: s.created_at })),
+  };
+}
+
+export async function restoreAll(b: import('../backup/backup').BackupData): Promise<void> {
+  const db = await getDb();
+  await db.withTransactionAsync(async () => {
+    for (const t of ['transactions', 'categories', 'payee_memory', 'classifier_tokens', 'classifier_meta', 'level_alerts', 'savings_events', 'roast_history']) {
+      await db.runAsync(`DELETE FROM ${t}`);
+    }
+    for (const c of b.categories) {
+      await db.runAsync('INSERT INTO categories (id, name, emoji, monthly_limit, sort_order, archived) VALUES (?,?,?,?,?,0)', [c.id, c.name, c.emoji, c.monthlyLimit, c.sortOrder ?? 0]);
+    }
+    for (const t of b.transactions) {
+      await db.runAsync(
+        'INSERT INTO transactions (id, amount, category_id, payee, note, source, status, sms_hash, created_at) VALUES (?,?,?,?,?,?,?,?,?)',
+        [t.id, t.amount, t.categoryId, t.payee, t.note, t.source, t.status, t.smsHash, t.createdAt],
+      );
+    }
+    for (const m of b.payeeMemory) await db.runAsync('INSERT OR REPLACE INTO payee_memory (payee_normalized, category_id, count) VALUES (?,?,?)', [m.payee, m.categoryId, m.count]);
+    for (const s of b.savingsEvents) await db.runAsync('INSERT INTO savings_events (id, amount, payee, created_at) VALUES (?,?,?,?)', [s.id, s.amount, s.payee, s.createdAt]);
+    await db.runAsync('UPDATE settings SET income = ?, salary_day = ?, roast_language = ?, onboarding_done = 1 WHERE id = 1', [b.settings.income, b.settings.salaryDay, b.settings.roastLanguage]);
   });
 }

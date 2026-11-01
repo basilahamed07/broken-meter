@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Alert, Pressable, TextInput, View } from 'react-native';
 import { requestNotificationPermission } from '../../src/notify/alerts';
+import { requestSmsPermission, scanPastSms, smsAvailable } from '../../src/sms/listener';
 import { formatRupees, parseAmountToPaise, toPaise } from '../../src/lib/money';
 import { useApp } from '../../src/state/AppContext';
 import { Card, PrimaryButton, Screen, SecondaryButton, Text, TextField, colors, fonts, radius } from '../../src/ui';
@@ -34,6 +35,7 @@ export default function Onboarding() {
   const [salaryDay, setSalaryDay] = useState('1');
   const [rows, setRows] = useState<Row[]>(SUGGESTIONS);
   const [notif, setNotif] = useState(false);
+  const [sms, setSms] = useState(false);
   const [busy, setBusy] = useState(false);
 
   const incomeNum = Number(income.replace(/[^0-9.]/g, '')) || 0;
@@ -62,7 +64,17 @@ export default function Onboarding() {
         .filter((r) => r.name.trim())
         .map((r) => ({ name: r.name.trim(), emoji: r.emoji.trim() || '📦', monthlyLimit: parseAmountToPaise(r.limit) }));
       await completeOnboarding(toPaise(incomeNum), parseInt(salaryDay, 10), cats);
+      let smsOk = false;
+      if (sms) smsOk = await requestSmsPermission();
       router.replace('/');
+      if (sms && !smsOk) {
+        Alert.alert('SMS not allowed', 'No problem, you can add expenses by hand. On Android 13+, if the permission is greyed out: Settings > Apps > Broke Meter > ⋮ > Allow restricted settings.');
+      } else if (smsOk) {
+        Alert.alert('Scan past SMS?', 'Read this cycle\'s bank messages on this phone to add past spends. Nothing leaves your phone.', [
+          { text: 'Not now', style: 'cancel' },
+          { text: 'Scan', onPress: () => scanPastSms().then((n) => Alert.alert('Done', `${n} spends added.`)).catch(() => {}) },
+        ]);
+      }
     } catch {
       setBusy(false);
       Alert.alert('Could not finish setup', 'Please try again.');
@@ -122,7 +134,8 @@ export default function Onboarding() {
             </Card>
             <Card inner style={{ gap: 4 }}>
               <Text variant="heading">💬 SMS</Text>
-              <Text variant="caption">Lets the app spot bank debit messages automatically. Asked when you turn it on in a later update.</Text>
+              <Text variant="caption">Spots bank debit messages automatically. Messages are read on this phone only, OTPs are ignored.</Text>
+              {smsAvailable() ? <SecondaryButton label={sms ? 'Will ask on start ✓' : 'Allow SMS'} onPress={() => setSms(!sms)} style={{ marginTop: 8, paddingVertical: 12 }} /> : <Text variant="caption">Available in the Android app.</Text>}
             </Card>
             <Card inner style={{ gap: 4 }}>
               <Text variant="heading">📷 Camera</Text>
