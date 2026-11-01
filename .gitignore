@@ -6,3 +6,5 @@ ios/
 *.apk
 *.log
 .DS_Store
+assets/*.png
+package-lock.json

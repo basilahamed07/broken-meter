@@ -43,7 +43,8 @@
     "start": "expo start --dev-client",
     "android": "expo run:android",
     "test": "jest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "postinstall": "node scripts/make-assets.js"
   },
   "private": true
 }
