@@ -61,7 +61,7 @@ jobs:
         run: |
           f=$(find node_modules/expo/android/build -name ExpoModulesPackageList.kt | head -1)
           echo "$f"
-          ! grep -n "smsreader" "$f"
+          test -n "$f" && ! grep -n "smsreader" "$f"
       - name: Check APK size (< 40 MB) and name it
         run: |
           APK=$(ls android/app/build/outputs/apk/release/*.apk | head -1)
