@@ -10,7 +10,7 @@ import { Card, Screen, SegmentedControl, SettingsRow, Text, colors } from '../..
 
 export default function Settings() {
   const router = useRouter();
-  const { settings, updateSettings, refresh, categories } = useApp();
+  const { settings, updateSettings, refresh, categories, smsPermissionChanged } = useApp();
 
   const toggleSms = async () => {
     if (!smsAvailable()) return Alert.alert('SMS tracking', 'This is available in the Android app.');
@@ -22,6 +22,7 @@ export default function Settings() {
     }
     const ok = await requestSmsPermission();
     if (!ok) return Alert.alert('SMS not allowed', 'On Android 13+, sideloaded apps need: Settings > Apps > Broke Meter > ⋮ > Allow restricted settings. Then try again. Manual entry still works.');
+    smsPermissionChanged();
     await refresh();
     Alert.alert('Scan past SMS?', "Add this cycle's bank debits from your inbox. Nothing leaves your phone.", [
       { text: 'Not now', style: 'cancel' },

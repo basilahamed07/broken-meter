@@ -7,7 +7,7 @@ import type { Category, Settings, Transaction } from '../db/types';
 import { addDays } from '../lib/dates';
 import { AppState } from 'react-native';
 import { learnLabel } from '../categorize/learn';
-import { startSmsListener } from '../sms/listener';
+import { drainSmsQueue, startSmsListener } from '../sms/listener';
 import { SaveResult, checkLevels } from './alerts';
 
 interface Derived {
@@ -33,6 +33,8 @@ interface Ctx extends Derived {
   pendingPrompt: Transaction | null;
   resolvePending: (id: number, wentThrough: boolean) => Promise<void>;
   snoozePending: () => void;
+  /** Call after the SMS permission was granted so the listener (re)starts. */
+  smsPermissionChanged: () => void;
 }
 
 const DEFAULT_SETTINGS: Settings = { income: 0, salaryDay: 1, roastLanguage: 'mix', onboardingDone: false };
@@ -54,6 +56,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [recent, setRecent] = useState<Transaction[]>([]);
   const [spentBy, setSpentBy] = useState<Map<number | null, number>>(new Map());
   const [now, setNow] = useState(() => new Date());
+  const [smsEpoch, setSmsEpoch] = useState(0);
+  const smsPermissionChanged = useCallback(() => setSmsEpoch((n) => n + 1), []);
   const settingsRef = useRef(settings);
   settingsRef.current = settings;
 
@@ -109,7 +113,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!ready || !settings.onboardingDone) return;
     return startSmsListener(() => { refresh().catch(() => {}); });
-  }, [ready, settings.onboardingDone, refresh]);
+  }, [ready, settings.onboardingDone, refresh, smsEpoch]);
 
   const [pendingPrompt, setPendingPrompt] = useState<Transaction | null>(null);
   const snoozed = useRef(new Set<number>());
@@ -123,7 +127,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const sub = AppState.addEventListener('change', (st) => {
-      if (st === 'active') refresh().then(checkPending).catch(() => {});
+      if (st === 'active') {
+        refresh().then(checkPending).catch(() => {});
+        if (settingsRef.current.onboardingDone) drainSmsQueue(() => { refresh().catch(() => {}); }).catch(() => {});
+      }
     });
     return () => sub.remove();
   }, [refresh, checkPending]);
@@ -157,6 +164,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const cycleRange = useCallback(() => rangeFor(derived.cycle), [derived.cycle]);
 
-  const value: Ctx = { ...derived, ready, settings, categories, recent, refresh, updateSettings, completeOnboarding, saveExpense, cycleRange, addPending, pendingPrompt, resolvePending, snoozePending };
+  const value: Ctx = { ...derived, ready, settings, categories, recent, refresh, updateSettings, completeOnboarding, saveExpense, cycleRange, addPending, pendingPrompt, resolvePending, snoozePending, smsPermissionChanged };
   return <AppCtx.Provider value={value}>{children}</AppCtx.Provider>;
 }

@@ -66,9 +66,17 @@ adb emu sms send AD-SBIUPI "123456 is your OTP for txn of Rs 450 at AMAZON. Do n
 sleep 8; snap B07-after-otp
 step "B: OTP ignored" hasnt "AMAZON" 4
 
+echo "=== Flow B3: SMS while app closed ===" | tee -a e2e/steps.log
+adb shell am force-stop $PKG
+adb emu sms send AXISBK "INR 99.00 debited from A/c no. XX1234 on 12-06-26 07:15:00 UPI/P2M/123456789012/RAPIDO Not you? SMS BLOCK UPI to 919951860002" >> e2e/steps.log 2>&1
+sleep 5
+adb shell am start -n $PKG/.MainActivity >/dev/null; sleep 10
+step "B: SMS received while app closed is picked up" has "RAPIDO" 40; snap B08-after-queue
+
 adb logcat -d > e2e/logcat.txt 2>&1
 echo "=== RESULT ===" ; cat e2e/result.txt
 echo "=== STEP LOG (tail) ==="; tail -n 120 e2e/steps.log
 echo "=== SMS MODULE DIAGNOSTICS (logcat) ==="; grep -iE "smsreader|sms-reader|ExpoModulesCore|ModuleRegistry|Cannot find native" e2e/logcat.txt | head -30
 echo "=== LOGCAT (errors) ==="; grep -iE "FATAL|AndroidRuntime|ReactNativeJS.*(Error|error)|Exception" e2e/logcat.txt | head -40
 echo "=== SmsReader / native module lines ==="; grep -iE "SmsReader|Cannot find native" e2e/logcat.txt | head -20
+echo "=== [sms] JS log lines ==="; grep -E "\[sms\]" e2e/logcat.txt | head -30

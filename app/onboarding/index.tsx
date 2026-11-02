@@ -29,7 +29,7 @@ function Dots({ step }: { step: number }) {
 
 export default function Onboarding() {
   const router = useRouter();
-  const { completeOnboarding } = useApp();
+  const { completeOnboarding, smsPermissionChanged } = useApp();
   const [step, setStep] = useState(1);
   const [income, setIncome] = useState('20000');
   const [salaryDay, setSalaryDay] = useState('1');
@@ -66,6 +66,7 @@ export default function Onboarding() {
       await completeOnboarding(toPaise(incomeNum), parseInt(salaryDay, 10), cats);
       let smsOk = false;
       if (sms) smsOk = await requestSmsPermission();
+      if (smsOk) smsPermissionChanged();
       router.replace('/');
       if (sms && !smsOk) {
         Alert.alert('SMS not allowed', 'No problem, you can add expenses by hand. On Android 13+, if the permission is greyed out: Settings > Apps > Broke Meter > ⋮ > Allow restricted settings.');

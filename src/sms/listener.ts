@@ -2,6 +2,7 @@ import { PermissionsAndroid, Platform } from 'react-native';
 import { getCycle } from '../budget/cycle';
 import * as q from '../db/queries';
 import { processSms } from './handler';
+import { parseDebitSms } from './parser';
 import { getSmsNative } from './native';
 
 export const smsAvailable = (): boolean => getSmsNative() !== null;
@@ -30,25 +31,41 @@ export async function scanPastSms(): Promise<number> {
   return added;
 }
 
+let busy = false;
+
+/** Process SMS queued natively (received while the app was closed or not listening). Returns how many were processed. */
+export async function drainSmsQueue(onChange: () => void): Promise<number> {
+  const native = getSmsNative();
+  if (!native || !native.hasPermission() || busy) return 0;
+  busy = true;
+  try {
+    const msgs = await native.drainQueue();
+    const outcomes: string[] = [];
+    for (const m of msgs) {
+      const outcome = await processSms(m, { notify: true });
+      const amt = parseDebitSms(m.body, m.address)?.amount;
+      outcomes.push(`${outcome}${amt != null ? `(Rs ${amt / 100})` : ''}`);
+    }
+    console.log('[sms] drained', msgs.length, 'outcomes', outcomes.join(',') || '-');
+    if (msgs.length) onChange();
+    return msgs.length;
+  } catch (e) {
+    console.log('[sms] drain failed', e instanceof Error ? e.message : String(e));
+    return 0; // never crash the app because of an SMS
+  } finally {
+    busy = false;
+  }
+}
+
 /** Start listening for new SMS and catch up on any queued while the app was closed. Returns a stop function. */
 export function startSmsListener(onChange: () => void): () => void {
   const native = getSmsNative();
-  if (!native || !native.hasPermission()) return () => {};
-  let busy = false;
-  const drain = async () => {
-    if (busy) return;
-    busy = true;
-    try {
-      const msgs = await native.drainQueue();
-      for (const m of msgs) await processSms(m, { notify: true });
-      if (msgs.length) onChange();
-    } catch {
-      // never crash the app because of an SMS
-    } finally {
-      busy = false;
-    }
-  };
-  const sub = native.addListener('onSmsQueued', drain);
-  drain();
+  if (!native || !native.hasPermission()) {
+    console.log('[sms] listener not started (no native module or no permission)');
+    return () => {};
+  }
+  console.log('[sms] listener started');
+  const sub = native.addListener('onSmsQueued', () => { drainSmsQueue(onChange); });
+  drainSmsQueue(onChange);
   return () => sub.remove();
 }
