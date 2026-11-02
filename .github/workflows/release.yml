@@ -2,6 +2,12 @@ name: Release APK
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Version tag to create the release under (e.g. v0.1.0)
+        required: true
+        default: v0.1.0
 permissions:
   contents: write
 jobs:
@@ -10,6 +16,7 @@ jobs:
     env:
       RELEASE_BUILD: '1' # drops the INTERNET permission: the shipped APK cannot use the network
       EXPO_NO_TELEMETRY: '1'
+      TAG: ${{ inputs.tag || github.ref_name }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -38,8 +45,9 @@ jobs:
           SIZE=$(stat -c%s "$APK")
           echo "APK size: $((SIZE/1024/1024)) MB"
           [ "$SIZE" -lt 41943040 ] || { echo "APK is larger than 40 MB"; exit 1; }
-          cp "$APK" "BrokeMeter-${GITHUB_REF_NAME}.apk"
+          cp "$APK" "BrokeMeter-${TAG}.apk"
       - uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ env.TAG }}
           files: BrokeMeter-*.apk
           generate_release_notes: true
