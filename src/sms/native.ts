@@ -17,7 +17,8 @@ export function getSmsNative(): SmsNative | null {
   if (Platform.OS === 'android') {
     try {
       // eslint-disable-next-line @typescript-eslint/no-require-imports
-      cached = require('../../modules/sms-reader').default as SmsNative;
+      const mod = require('../../modules/sms-reader').default as SmsNative | null;
+      cached = mod && typeof mod.hasPermission === 'function' ? mod : null;
     } catch {
       cached = null;
     }

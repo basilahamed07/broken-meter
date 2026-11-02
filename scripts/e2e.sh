@@ -42,7 +42,8 @@ python3 scripts/uitap.py tap "Not now" 8 >> e2e/steps.log 2>&1 || true
 python3 scripts/uitap.py tap "OK" 4 >> e2e/steps.log 2>&1 || true; sleep 2; snap B04-after-dialogs
 step "B: home screen reachable" has "Left this month" 30
 
-adb logcat -d -s ReactNativeJS:V AndroidRuntime:E ExpoModulesCore:V expo:V "*:F" > e2e/logcat.txt 2>&1
+adb logcat -d > e2e/logcat.txt 2>&1
 echo "=== RESULT ===" ; cat e2e/result.txt
 echo "=== STEP LOG (tail) ==="; tail -n 120 e2e/steps.log
+echo "=== SMS MODULE DIAGNOSTICS (logcat) ==="; grep -iE "smsreader|sms-reader|ExpoModulesCore|ModuleRegistry|Cannot find native" e2e/logcat.txt | head -30
 echo "=== LOGCAT (errors) ==="; grep -iE "FATAL|AndroidRuntime|ReactNativeJS.*(Error|error)|Exception" e2e/logcat.txt | head -40
