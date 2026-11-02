@@ -16,10 +16,15 @@ has() { python3 scripts/uitap.py has "$1" "${2:-20}"; }
 adb install -r "$APK" || { echo "FAIL  install" | tee -a e2e/result.txt; exit 0; }
 echo "PASS  install" | tee -a e2e/result.txt
 adb logcat -c
+# let the launcher settle so no system ANR dialog covers the app
+adb shell input keyevent KEYCODE_WAKEUP
+adb shell wm dismiss-keyguard
+adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS >/dev/null
+sleep 20
 
 echo "=== Flow A: onboarding without SMS ===" | tee -a e2e/steps.log
 adb shell am start -n $PKG/.MainActivity >/dev/null; sleep 10; snap A01-start
-step "A: onboarding step 1 visible" has "Your income" 30
+step "A: onboarding step 1 visible" has "Your income" 60
 step "A: tap Next (1)" tap "Next"; sleep 2; snap A02-categories
 step "A: step 2 visible" has "Set your categories"
 step "A: tap Next (2)" tap "Next"; sleep 2; snap A03-permissions
@@ -47,3 +52,4 @@ echo "=== RESULT ===" ; cat e2e/result.txt
 echo "=== STEP LOG (tail) ==="; tail -n 120 e2e/steps.log
 echo "=== SMS MODULE DIAGNOSTICS (logcat) ==="; grep -iE "smsreader|sms-reader|ExpoModulesCore|ModuleRegistry|Cannot find native" e2e/logcat.txt | head -30
 echo "=== LOGCAT (errors) ==="; grep -iE "FATAL|AndroidRuntime|ReactNativeJS.*(Error|error)|Exception" e2e/logcat.txt | head -40
+echo "=== SmsReader / native module lines ==="; grep -iE "SmsReader|Cannot find native" e2e/logcat.txt | head -20

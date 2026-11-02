@@ -13,5 +13,12 @@ module.exports = ({ config }) => {
     'android.permission.WRITE_EXTERNAL_STORAGE',
   ];
   if (process.env.RELEASE_BUILD === '1') blocked.push('android.permission.INTERNET', 'android.permission.ACCESS_NETWORK_STATE');
-  return { ...config, android: { ...config.android, blockedPermissions: blocked } };
+  const android = { ...config.android, blockedPermissions: blocked };
+  // "lite" variant: no SMS at all (the sms-reader module is also excluded from autolinking in CI)
+  if (process.env.NO_SMS === '1') {
+    const sms = ['android.permission.READ_SMS', 'android.permission.RECEIVE_SMS'];
+    blocked.push(...sms);
+    android.permissions = (config.android?.permissions ?? []).filter((p) => !sms.includes(p));
+  }
+  return { ...config, android };
 };

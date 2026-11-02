@@ -29,7 +29,9 @@ Insights · Settings (income, categories, roast language English / Tanglish / Mi
 Everything works with manual entry if SMS or camera permission is denied.
 
 ## Install the APK
-1. Download `BrokeMeter-vX.Y.Z.apk` from the [Releases](../../releases) page.
+1. Download an APK from the [Releases](../../releases) page. There are two files:
+   - **`BrokeMeter-lite-vX.Y.Z.apk`**: no SMS permission, installs without warnings on most phones. Add expenses by hand or scan a QR.
+   - **`BrokeMeter-vX.Y.Z.apk`** (full): also reads bank SMS automatically. Android may show a Play Protect warning because it is installed outside the Play Store and asks for SMS permission. Tap "More details", then "Install anyway", only if you trust this open-source app.
 2. Open it. Android asks to allow **Install unknown apps** for your browser or file manager; allow it.
 3. **Android 13+ and SMS tracking:** sideloaded apps are blocked from the SMS permission by default. Go to
    **Settings, Apps, Broke Meter, ⋮ (top right), Allow restricted settings**, then grant SMS in the app.

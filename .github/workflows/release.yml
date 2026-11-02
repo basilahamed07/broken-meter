@@ -5,14 +5,18 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Version tag to create the release under (e.g. v0.1.0)
+        description: Version tag to create the release under (e.g. v0.1.1)
         required: true
-        default: v0.1.0
+        default: v0.1.1
 permissions:
   contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [full, lite]
     env:
       RELEASE_BUILD: '1' # drops the INTERNET permission: the shipped APK cannot use the network
       EXPO_NO_TELEMETRY: '1'
@@ -25,7 +29,14 @@ jobs:
         with: { distribution: temurin, java-version: 17 }
       - run: npm install --legacy-peer-deps
       - run: npm run typecheck
-      - run: npm test
+      - name: Tests
+        if: matrix.variant == 'full'
+        run: npm test
+      - name: Exclude the SMS module (lite variant)
+        if: matrix.variant == 'lite'
+        run: |
+          node -e "const fs=require('fs');const p=JSON.parse(fs.readFileSync('package.json','utf8'));p.expo=p.expo||{};p.expo.autolinking=Object.assign({},p.expo.autolinking,{exclude:['sms-reader']});fs.writeFileSync('package.json',JSON.stringify(p,null,2)+'\n')"
+          echo "NO_SMS=1" >> "$GITHUB_ENV"
       - name: Generate native project
         run: npx expo prebuild --platform android --no-install --clean
       - name: Shrink the APK (R8, resource shrinking, 64-bit ARM only)
@@ -39,15 +50,46 @@ jobs:
       - name: Build release APK
         working-directory: android
         run: ./gradlew assembleRelease --no-daemon
+      - name: Check SMS module is linked (full)
+        if: matrix.variant == 'full'
+        run: |
+          f=$(find node_modules/expo/android/build -name ExpoModulesPackageList.kt | head -1)
+          echo "$f"
+          grep -n "smsreader" "$f"
+      - name: Check SMS module is NOT linked (lite)
+        if: matrix.variant == 'lite'
+        run: |
+          f=$(find node_modules/expo/android/build -name ExpoModulesPackageList.kt | head -1)
+          echo "$f"
+          ! grep -n "smsreader" "$f"
       - name: Check APK size (< 40 MB) and name it
         run: |
           APK=$(ls android/app/build/outputs/apk/release/*.apk | head -1)
           SIZE=$(stat -c%s "$APK")
           echo "APK size: $((SIZE/1024/1024)) MB"
           [ "$SIZE" -lt 41943040 ] || echo "::warning::APK is larger than the 40 MB target"
-          cp "$APK" "BrokeMeter-${TAG}.apk"
+          if [ "${{ matrix.variant }}" = "lite" ]; then NAME="BrokeMeter-lite-${TAG}.apk"; else NAME="BrokeMeter-${TAG}.apk"; fi
+          cp "$APK" "$NAME"
+          echo "APK_NAME=$NAME" >> "$GITHUB_ENV"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apk-${{ matrix.variant }}
+          path: ${{ env.APK_NAME }}
+          if-no-files-found: error
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ inputs.tag || github.ref_name }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: apk-*
+          merge-multiple: true
+          path: apks
+      - run: ls -l apks
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.TAG }}
-          files: BrokeMeter-*.apk
+          files: apks/*.apk
           generate_release_notes: true

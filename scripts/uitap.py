@@ -10,15 +10,36 @@ def dump():
     except ET.ParseError:
         return None
 
+def center(n):
+    m = re.match(r'\[(\d+),(\d+)\]\[(\d+),(\d+)\]', n.get('bounds') or '')
+    if m:
+        x1, y1, x2, y2 = map(int, m.groups())
+        return (x1 + x2) // 2, (y1 + y2) // 2
+    return None
+
 def find(root, text):
-    for n in root.iter('node'):
+    nodes = list(root.iter('node'))
+    # pass 1: exact text / content-desc match
+    for n in nodes:
+        if (n.get('text') or '') == text or (n.get('content-desc') or '') == text:
+            c = center(n)
+            if c:
+                return c
+    # pass 2: substring rule
+    for n in nodes:
         t = n.get('text') or ''
-        d = n.get('content-desc') or ''
-        if t == text or d == text or (text in t and len(t) < len(text) + 40):
-            m = re.match(r'\[(\d+),(\d+)\]\[(\d+),(\d+)\]', n.get('bounds') or '')
-            if m:
-                x1, y1, x2, y2 = map(int, m.groups())
-                return (x1 + x2) // 2, (y1 + y2) // 2
+        if text in t and len(t) < len(text) + 40:
+            c = center(n)
+            if c:
+                return c
+    return None
+
+def find_exact(root, text):
+    for n in root.iter('node'):
+        if (n.get('text') or '') == text:
+            c = center(n)
+            if c:
+                return c
     return None
 
 def all_text(root):
@@ -35,6 +56,12 @@ end = time.time() + timeout
 while time.time() < end:
     root = dump()
     if root is not None:
+        if any("isn't responding" in (n.get('text') or '') for n in root.iter('node')):
+            w = find_exact(root, 'Wait')
+            if w:
+                subprocess.run(['adb', 'shell', 'input', 'tap', str(w[0]), str(w[1])])
+                time.sleep(1.5)
+                continue
         pos = find(root, text)
         if pos:
             if mode == 'tap':
