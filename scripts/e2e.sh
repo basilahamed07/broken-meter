@@ -67,7 +67,8 @@ sleep 8; snap B07-after-otp
 step "B: OTP ignored" hasnt "AMAZON" 4
 
 echo "=== Flow B3: SMS while app closed ===" | tee -a e2e/steps.log
-adb shell am force-stop $PKG
+# Realistic "app closed": home + system-style process kill. (A user force-stop puts Android in a state where NO app gets SMS broadcasts, so that is not a valid test.)
+adb shell input keyevent KEYCODE_HOME; sleep 3; adb shell am kill $PKG; sleep 2
 adb emu sms send AXISBK "INR 99.00 debited from A/c no. XX1234 on 12-06-26 07:15:00 UPI/P2M/123456789012/RAPIDO Not you? SMS BLOCK UPI to 919951860002" >> e2e/steps.log 2>&1
 sleep 5
 adb shell am start -n $PKG/.MainActivity >/dev/null; sleep 10
