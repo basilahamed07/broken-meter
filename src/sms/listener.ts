@@ -32,11 +32,16 @@ export async function scanPastSms(): Promise<number> {
 }
 
 let busy = false;
+let again = false;
 
 /** Process SMS queued natively (received while the app was closed or not listening). Returns how many were processed. */
 export async function drainSmsQueue(onChange: () => void): Promise<number> {
   const native = getSmsNative();
-  if (!native || !native.hasPermission() || busy) return 0;
+  if (!native || !native.hasPermission()) return 0;
+  if (busy) {
+    again = true; // an SMS arrived mid-drain: run once more when the current drain ends
+    return 0;
+  }
   busy = true;
   try {
     const msgs = await native.drainQueue();
@@ -54,6 +59,10 @@ export async function drainSmsQueue(onChange: () => void): Promise<number> {
     return 0; // never crash the app because of an SMS
   } finally {
     busy = false;
+    if (again) {
+      again = false;
+      drainSmsQueue(onChange).catch(() => {});
+    }
   }
 }
 
