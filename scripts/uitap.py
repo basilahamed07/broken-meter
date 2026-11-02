@@ -21,14 +21,14 @@ def find(root, text):
     nodes = list(root.iter('node'))
     # pass 1: exact text / content-desc match
     for n in nodes:
-        if (n.get('text') or '') == text or (n.get('content-desc') or '') == text:
+        if (n.get('text') or '').casefold() == text.casefold() or (n.get('content-desc') or '').casefold() == text.casefold():
             c = center(n)
             if c:
                 return c
     # pass 2: substring rule
     for n in nodes:
         t = n.get('text') or ''
-        if text in t and len(t) < len(text) + 40:
+        if text.casefold() in t.casefold() and len(t) < len(text) + 40:
             c = center(n)
             if c:
                 return c
