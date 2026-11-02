@@ -54,7 +54,7 @@ cd android && ./gradlew assembleRelease
 ```
 
 Tagging a version publishes a release automatically: `git tag v0.1.0 && git push origin v0.1.0`
-(see `.github/workflows/release.yml`, which also fails if the APK exceeds 40 MB).
+(see `.github/workflows/release.yml`, which warns if the APK exceeds 40 MB; it builds for 64-bit ARM phones only, which covers nearly all phones from the last several years).
 
 Note: release APKs from the workflow are signed with the template debug key, which is fine for sideloading.
 Use your own keystore if you want upgrade-in-place guarantees across machines.
