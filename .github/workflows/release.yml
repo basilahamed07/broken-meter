@@ -30,6 +30,7 @@ jobs:
         run: npx expo prebuild --platform android --no-install --clean
       - name: Shrink the APK (R8, resource shrinking, arm only)
         run: |
+          printf '\n' >> android/gradle.properties
           cat >> android/gradle.properties <<'PROPS'
           android.enableMinifyInReleaseBuilds=true
           android.enableShrinkResourcesInReleaseBuilds=true
