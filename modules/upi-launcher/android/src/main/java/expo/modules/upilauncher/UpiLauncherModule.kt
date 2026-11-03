@@ -1,5 +1,6 @@
 package expo.modules.upilauncher
 
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -13,7 +14,8 @@ import expo.modules.kotlin.modules.ModuleDefinition
  * Nothing is sent anywhere; the app only hands the payment details to the UPI app on this phone.
  */
 class UpiLauncherModule : Module() {
-  private val context get() = appContext.reactContext ?: throw Exceptions.ReactContextLost()
+  private val context: Context
+    get() = appContext.reactContext ?: throw Exceptions.ReactContextLost()
 
   override fun definition() = ModuleDefinition {
     Name("UpiLauncher")
