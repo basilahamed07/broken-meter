@@ -5,6 +5,7 @@ import { Alert, Pressable, View } from 'react-native';
 import { autoCategorize } from '../src/categorize/auto';
 import { parseAmountToPaise } from '../src/lib/money';
 import { useApp } from '../src/state/AppContext';
+import { isValidVpa } from '../src/upi/qrParser';
 import { CategoryPicker, PrimaryButton, Screen, SecondaryButton, Text, TextField, colors } from '../src/ui';
 
 export default function PaySomeone() {
@@ -40,7 +41,7 @@ export default function PaySomeone() {
     if (!payee.trim()) return Alert.alert('Who are you paying?', 'Pick a contact or type a name or UPI ID.');
     if (!paise) return Alert.alert('Enter the amount', 'The amount must be more than zero.');
     if (catId == null) return Alert.alert('Pick a category', 'Which category is this payment?');
-    router.push({ pathname: '/before-pay', params: { payee: payee.trim(), amount: String(paise), categoryId: String(catId), source: 'p2p' } });
+    router.push({ pathname: '/before-pay', params: { payee: payee.trim(), amount: String(paise), categoryId: String(catId), ...(isValidVpa(payee) ? { pa: payee.trim() } : {}), source: 'p2p' } });
   };
 
   return (

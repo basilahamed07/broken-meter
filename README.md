@@ -37,6 +37,11 @@ Everything works with manual entry if SMS or camera permission is denied.
    **Settings, Apps, Broke Meter, ⋮ (top right), Allow restricted settings**, then grant SMS in the app.
    Skip this if you only want manual entry.
 
+## Paying with UPI
+The app opens GPay (or any UPI app you pick) with the QR details, like tapping a UPI link.
+GPay and banks may refuse payments to unverified or personal UPI IDs opened from other apps. If that happens, use "Copy UPI ID and open GPay" and pay inside the app.
+The app cannot see the payment result, so it asks you afterwards or matches the bank SMS.
+
 ## Build from source
 Needs Node 20+, JDK 17 and the Android SDK. Expo Go is **not** enough (native modules).
 

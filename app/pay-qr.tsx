@@ -44,7 +44,7 @@ export default function PayQr() {
     const paise = parseAmountToPaise(amount);
     if (!paise) return Alert.alert('Enter the amount', 'This QR has no amount. Type how much you are paying.');
     if (catId == null) return Alert.alert('Pick a category', 'Which category is this payment?');
-    router.push({ pathname: '/before-pay', params: { payee: payeeLabel(pay!), amount: String(paise), categoryId: String(catId), upi: pay!.raw, note: pay!.tn, source: 'qr' } });
+    router.push({ pathname: '/before-pay', params: { payee: payeeLabel(pay!), amount: String(paise), categoryId: String(catId), upi: pay!.raw, pa: pay!.pa, note: pay!.tn, source: 'qr' } });
   };
 
   const back = (
